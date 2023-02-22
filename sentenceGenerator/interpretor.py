@@ -2,9 +2,17 @@ import spacy
 import sys
 
 
+def spacyLibraryFromCode(languageCode:str):
+
+    switch = {
+        "fr":"fr_core_news_sm",
+        "en":"en_core_web_sm"
+    }
+    return switch.get(languageCode)
+    
 
 def main(text:str, languageCode:str):
-    nlp = spacy.load(languageCode + "_core_web_sm")
+    nlp = spacy.load(spacyLibraryFromCode(languageCode))
 
     tokens = tokens = nlp(text)
     for token in tokens:
