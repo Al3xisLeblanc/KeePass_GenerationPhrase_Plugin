@@ -16,7 +16,7 @@ def main(text:str, languageCode:str):
 
     tokens = tokens = nlp(text)
     for token in tokens:
-        print(token, "-------->", token.lemma_ )
+        print(token, "-------->", token.lemma_, token.pos_ )
     
 
 
