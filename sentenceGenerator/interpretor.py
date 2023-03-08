@@ -14,7 +14,7 @@ def spacyLibraryFromCode(languageCode:str):
 def main(text:str, languageCode:str):
     nlp = spacy.load(spacyLibraryFromCode(languageCode))
 
-    tokens = tokens = nlp(text)
+    tokens = nlp(text)
     for token in tokens:
         print(token, "-------->", token.lemma_, token.pos_ )
     
