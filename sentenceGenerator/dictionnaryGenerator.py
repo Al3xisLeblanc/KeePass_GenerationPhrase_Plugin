@@ -14,16 +14,30 @@ def spacyLibraryFromCode(languageCode:str):
 def generateDictionnaryFiles(languageCode:str):
 
     dictionnaryFolders = DICTIONNARIES_FOLDER_PATH + "dictionnary_" + languageCode + "/"
-    os.mkdir(dictionnaryFolders)
+    if not os.path.exists(dictionnaryFolders):
+        os.mkdir(dictionnaryFolders)
     
+    adpFile = dictionnaryFolders+"ADP.txt"
+    detFile = dictionnaryFolders+"DET.txt"
+    nounFile = dictionnaryFolders+"NOUN.txt"
+    verbFile = dictionnaryFolders+"VERB.txt"
+    auxFile = dictionnaryFolders+"AUXILIAIRE.txt"
+    propnFile = dictionnaryFolders+"PROPN.txt"
+
+    fileList = [adpFile, detFile, nounFile, verbFile, auxFile, propnFile]
+    for file in fileList:
+        if not os.path.exists(file):
+            open(file, "x")
+
+    
+
     files ={
-        "ADP" : open(dictionnaryFolders+"ADP.txt", "w+"),
-        "DET" : open(dictionnaryFolders+"DET.txt", "w+"),
-        "NOUN" : open(dictionnaryFolders+"NOUN.txt", "w+"),
-        "DET" : open(dictionnaryFolders+"DET.txt", "w+"),
-        "VERB" : open(dictionnaryFolders+"VERB.txt", "w+"),
-        "AUX" : open(dictionnaryFolders+"AUX.txt", "w+"),
-        "PROPN" : open(dictionnaryFolders+"PROPN.txt", "w+")
+        "ADP" : open(adpFile, "w"),
+        "DET" : open(detFile, "w"),
+        "NOUN" : open(nounFile, "w"),
+        "VERB" : open(verbFile, "w"),
+        "AUX" : open(auxFile, "w"),
+        "PROPN" : open(propnFile, "w")
     }
     return files
 
@@ -51,4 +65,5 @@ def main(wordListFile:str, languageCode:str):
 if __name__ == "__main__":
 
     DICTIONNARIES_FOLDER_PATH = "./Dictionnaries/"
-    main(sys.argv[1], sys.argv[2])
+    #main(sys.argv[1], sys.argv[2])
+    generateDictionnaryFiles(sys.argv[2])
