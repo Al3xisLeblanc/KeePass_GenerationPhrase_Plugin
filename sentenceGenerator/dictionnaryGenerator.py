@@ -46,7 +46,6 @@ def main(wordListFile:str, languageCode:str):
     tokens = nlp(words)
     wordPositionFiles = generateDictionnaryFiles(languageCode)
     
-    nbTokenX= 0
     for token in tokens:
         
         if token.pos_ != 'SPACE' and token.pos_ !='PUNCT':
