@@ -9,7 +9,6 @@ def spacyLibraryFromCode(languageCode:str):
         "en":"en_core_web_sm"
     }
     return switch.get(languageCode)
-    
 
 def main(text:str, languageCode:str):
     nlp = spacy.load(spacyLibraryFromCode(languageCode))
