@@ -11,20 +11,25 @@ def spacyLibraryFromCode(languageCode:str):
     }
     return switch.get(languageCode)
     
+def emptyFolder(folderPath):
+
+    if not os.path.exists(folderPath): return None
+
+    files = os.listdir(folderPath)
+    print(files)
+    for fileName in files: os.remove(folderPath+fileName)
+
+
 def generateDictionnaryFiles(languageCode:str):
 
-    dictionnaryFolders = DICTIONNARIES_FOLDER_PATH + "dictionnary_" + languageCode + "/"
-    os.mkdir(dictionnaryFolders)
+    positions = ["ADJ", "ADP", "ADV", "AUX", "CONJ","CCONJ", "DET", "INTJ", "NOUN", "NUM", "PART", "PRON", "PROPN", "PUNCT", "SCONJ", "SYM", "VERB", "X"]
+
+    dictionnaryFolder = DICTIONNARIES_FOLDER_PATH + "dictionnary_" + languageCode + "/"
+    if not os.path.exists(dictionnaryFolder): os.mkdir(dictionnaryFolder)
+    else: emptyFolder(dictionnaryFolder)
     
-    files ={
-        "ADP" : open(dictionnaryFolders+"ADP.txt", "w+"),
-        "DET" : open(dictionnaryFolders+"DET.txt", "w+"),
-        "NOUN" : open(dictionnaryFolders+"NOUN.txt", "w+"),
-        "DET" : open(dictionnaryFolders+"DET.txt", "w+"),
-        "VERB" : open(dictionnaryFolders+"VERB.txt", "w+"),
-        "AUX" : open(dictionnaryFolders+"AUX.txt", "w+"),
-        "PROPN" : open(dictionnaryFolders+"PROPN.txt", "w+")
-    }
+    files = {}
+    for pos in positions: files[pos] = open(dictionnaryFolder + pos + ".txt", "w+")
     return files
 
 
@@ -39,16 +44,18 @@ def main(wordListFile:str, languageCode:str):
     dictionnary.close()
 
     tokens = nlp(words)
-    generateDictionnaryFiles(languageCode)
+    wordPositionFiles = generateDictionnaryFiles(languageCode)
     
+    nbTokenX= 0
     for token in tokens:
-        if token.pos_ == "X":
-            print(token)
-
+        
+        if token.pos_ != 'SPACE' and token.pos_ !='PUNCT':
+            wordPositionFiles[token.pos_].write(token.lemma_ + "\n")
     
-
 
 if __name__ == "__main__":
 
     DICTIONNARIES_FOLDER_PATH = "./Dictionnaries/"
+    args = sys.argv[1:]
+    if len(args) < 2: raise Exception("2 parameters required: \n1. Word list file path \n2.Language code")
     main(sys.argv[1], sys.argv[2])
