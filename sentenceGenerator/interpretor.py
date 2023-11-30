@@ -1,5 +1,6 @@
 import spacy
 import sys
+from dictionary import Dictionary
 
 
 def spacyLibraryFromCode(languageCode:str):
@@ -10,15 +11,22 @@ def spacyLibraryFromCode(languageCode:str):
     }
     return switch.get(languageCode)
 
-def main(text:str, languageCode:str):
-    nlp = spacy.load(spacyLibraryFromCode(languageCode))
+def main():
+    # nlp = spacy.load(spacyLibraryFromCode(languageCode))
 
-    tokens = nlp(text)
-    for token in tokens:
-        print(token, "-------->", token.lemma_, token.pos_ )
+    # tokens = nlp(text)
+    # for token in tokens:
+    #     print(token, "-------->", token.lemma_, token.pos_ )
+    
+    dictionary = Dictionary("fr", "fr", DICTIONNARIES_FOLDER)
+
+    while(True):
+        word = input("Words to find: ")
+        stemWords = dictionary.getWordsFromStem(word, "NOUN")
+        print(stemWords)
     
 
 
 if __name__ == "__main__":
-
-    main(sys.argv[1], sys.argv[2])
+    DICTIONNARIES_FOLDER = "./Dictionnaries/"
+    main()
